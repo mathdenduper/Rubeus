@@ -20,7 +20,7 @@ jobs:
     - name: Set up .NET Core SDK
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: '3.5' # Specify the .NET SDK version (adjust if necessary)
+        dotnet-version: '7.0' # Specify the .NET SDK version (adjust if necessary)
 
     - name: Restore NuGet packages
       run: dotnet restore Rubeus.sln # Restore dependencies
