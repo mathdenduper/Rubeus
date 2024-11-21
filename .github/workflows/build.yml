@@ -6,7 +6,8 @@ on:
       - main # Trigger the build when pushing to the 'main' branch
   pull_request:
     branches:
-      - main # Trigger the build when a PR is opened to the 'main' branch
+      - main 
+  workflow_dispatch: # Trigger the build when a PR is opened to the 'main' branch
 
 jobs:
   build:
