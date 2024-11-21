@@ -1,0 +1,37 @@
+name: Build Rubeus
+
+on:
+  push:
+    branches:
+      - main # Trigger the build when pushing to the 'main' branch
+  pull_request:
+    branches:
+      - main # Trigger the build when a PR is opened to the 'main' branch
+
+jobs:
+  build:
+    runs-on: windows-latest # Use the latest Windows runner
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up .NET Core SDK
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: '7.0' # Specify the .NET SDK version (adjust if necessary)
+
+    - name: Restore NuGet packages
+      run: dotnet restore Rubeus.sln # Restore dependencies
+
+    - name: Build Rubeus
+      run: dotnet build Rubeus.sln -c Release # Build the project in Release mode
+
+    - name: Publish Rubeus.exe
+      run: dotnet publish Rubeus.sln -c Release -r win-x64 --self-contained false -o publish # Publish the executable
+
+    - name: Upload Rubeus.exe as Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: Rubeus
+        path: publish/Rubeus.exe # Upload the built executable as an artifact
