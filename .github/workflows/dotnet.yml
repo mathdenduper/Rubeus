@@ -1,0 +1,38 @@
+name: Build Rubeus
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch: # Allow manual trigger via GitHub UI
+
+jobs:
+  build:
+    runs-on: windows-latest # Use the latest Windows runner
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up .NET Core SDK
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: '3.5' # Specify the .NET SDK version (adjust if necessary)
+
+    - name: Restore NuGet packages
+      run: dotnet restore Rubeus.sln # Restore dependencies
+
+    - name: Build Rubeus
+      run: dotnet build Rubeus.sln -c Release # Build the project in Release mode
+
+    - name: Publish Rubeus.exe
+      run: dotnet publish Rubeus.sln -c Release -r win-x64 --self-contained false -o publish # Publish the executable
+
+    - name: Upload Rubeus.exe as Artifact
+      uses: actions/upload-artifact@v3 # Use version v3 of the upload-artifact action
+      with:
+        name: Rubeus
+        path: publish/Rubeus.exe # Upload the built executable as an artifact
