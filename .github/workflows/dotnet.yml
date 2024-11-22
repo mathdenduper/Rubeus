@@ -21,11 +21,11 @@ jobs:
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: '5.0' # Specify the .NET SDK version (adjust if necessary)
-      
-    - name: Debug .NET Framework Installer
+        
+    - name: Install .NET Framework 4.8.1 Developer Pack
       run: |
         curl -Lo NDP481-DevPack-ENU.exe https://go.microsoft.com/fwlink/?linkid=2203306
-        .\NDP481-DevPack-ENU.exe /q /log install.log
+        Start-Process -FilePath "NDP481-DevPack-ENU.exe" -ArgumentList "/q" -Wait
       shell: pwsh
 
 
