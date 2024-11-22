@@ -70,8 +70,12 @@ jobs:
         & $env:MSBUILD_PATH Rubeus.sln /p:Configuration=Release /p:RuntimeIdentifier=win-x64 /p:SelfContained=false /t:Publish /p:PublishDir=publish
       shell: pwsh
 
-    - name: Upload Rubeus.exe as Artifact
-      uses: actions/upload-artifact@v3 # Use version v3 of the upload-artifact action
+    - name: Rename Rubeus.exe
+      run: Rename-Item -Path "publish/Application Files/Rubeus_1_0_0_0/Rubeus.exe.deploy" -NewName "Rubeus.exe"
+      shell: pwsh
+
+    - name: Upload Rubeus.exe
+      uses: actions/upload-artifact@v3
       with:
         name: Rubeus
-        path: publish/Rubeus.exe # Upload the built executable as an artifact
+        path: publish/Application Files/Rubeus_1_0_0_0/Rubeus.exe
