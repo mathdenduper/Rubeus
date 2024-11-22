@@ -21,6 +21,14 @@ jobs:
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: '5.0' # Specify the .NET SDK version (adjust if necessary)
+        
+    - name: Install .NET Framework 4.8.1 Developer Pack
+      run: |
+        curl -Lo NDP481-DevPack-ENU.exe https://go.microsoft.com/fwlink/?linkid=2203306
+        start /wait NDP481-DevPack-ENU.exe /quiet /norestart
+
+    - name: Build project
+      run: msbuild your-solution.sln /p:Configuration=Release
 
     - name: Restore NuGet packages
       run: dotnet restore Rubeus.sln # Restore dependencies
