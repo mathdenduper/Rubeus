@@ -25,7 +25,7 @@ jobs:
     - name: Install .NET Framework 4.8.1 Developer Pack
       run: |
         curl -Lo NDP481-DevPack-ENU.exe https://go.microsoft.com/fwlink/?linkid=2203306
-        Start-Process -FilePath "NDP481-DevPack-ENU.exe" -Wait
+        Start-Process -FilePath "NDP481-DevPack-ENU.exe" -ArgumentList "/q" -Wait
       shell: pwsh
 
 
