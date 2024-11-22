@@ -28,9 +28,21 @@ jobs:
         Start-Process -FilePath "NDP481-DevPack-ENU.exe" -ArgumentList "/q" -Wait
       shell: pwsh
 
+    - name: Install Chocolatey
+      run: |
+        Set-ExecutionPolicy Bypass -Scope Process -Force
+        [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+        iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+      shell: pwsh
+
+    - name: Install Visual Studio Build Tools
+      run: |
+        choco install visualstudio2019-buildtools -y --version=16.11.10
+        refreshenv
+      shell: cmd
 
     - name: Build project
-      run: msbuild your-solution.sln /p:Configuration=Release
+      run: msbuild Rubeus.sln /p:Configuration=Release
 
     - name: Restore NuGet packages
       run: dotnet restore Rubeus.sln # Restore dependencies
