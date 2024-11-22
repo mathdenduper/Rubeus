@@ -58,10 +58,17 @@ jobs:
     - name: Build Rubeus
       run: dotnet build Rubeus.sln -c Release # Build the project in Release mode
 
+    - name: Find MSBuild Path
+      id: msbuild-path
+      run: |
+        $msbuildPath = &"C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe
+        echo "MSBUILD_PATH=$msbuildPath" >> $env:GITHUB_ENV
+      shell: pwsh
+
     - name: Publish Rubeus.exe using MSBuild
       run: |
-        "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\Bin\MSBuild.exe" Rubeus.sln /p:Configuration=Release /p:RuntimeIdentifier=win-x64 /p:SelfContained=false /t:Publish /p:PublishDir=publish
-      shell: cmd # Publish the executable
+        "$env:MSBUILD_PATH" Rubeus.sln /p:Configuration=Release /p:RuntimeIdentifier=win-x64 /p:SelfContained=false /t:Publish /p:PublishDir=publish
+      shell: pwsh
 
     - name: Upload Rubeus.exe as Artifact
       uses: actions/upload-artifact@v3 # Use version v3 of the upload-artifact action
