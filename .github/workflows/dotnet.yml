@@ -22,7 +22,18 @@ jobs:
       with:
         dotnet-version: '5.0' # Specify the .NET SDK version (adjust if necessary)
         
+    - name: Check if .NET Framework Developer Pack is Installed
+      id: check-devpack
+      run: |
+        if (Test-Path "C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8.1") {
+          echo "installed=true" >> $env:GITHUB_ENV
+        } else {
+          echo "installed=false" >> $env:GITHUB_ENV
+        }
+      shell: pwsh
+
     - name: Install .NET Framework 4.8.1 Developer Pack
+      if: env.installed == 'false'
       run: |
         curl -Lo NDP481-DevPack-ENU.exe https://go.microsoft.com/fwlink/?linkid=2203306
         Start-Process -FilePath "NDP481-DevPack-ENU.exe" -ArgumentList "/q" -Wait
