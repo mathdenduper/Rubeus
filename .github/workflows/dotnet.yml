@@ -52,9 +52,6 @@ jobs:
         refreshenv
       shell: cmd
 
-    - name: Build project
-      run: msbuild Rubeus.sln /p:Configuration=Release
-
     - name: Restore NuGet packages
       run: dotnet restore Rubeus.sln # Restore dependencies
 
