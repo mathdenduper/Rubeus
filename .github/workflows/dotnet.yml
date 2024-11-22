@@ -67,7 +67,7 @@ jobs:
 
     - name: Publish Rubeus.exe using MSBuild
       run: |
-        "$env:MSBUILD_PATH" Rubeus.sln /p:Configuration=Release /p:RuntimeIdentifier=win-x64 /p:SelfContained=false /t:Publish /p:PublishDir=publish
+        & $env:MSBUILD_PATH Rubeus.sln /p:Configuration=Release /p:RuntimeIdentifier=win-x64 /p:SelfContained=false /t:Publish /p:PublishDir=publish
       shell: pwsh
 
     - name: Upload Rubeus.exe as Artifact
