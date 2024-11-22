@@ -74,12 +74,8 @@ jobs:
       #run: Rename-Item -Path "publish/Application Files/Rubeus_1_0_0_0/Rubeus.exe.deploy" -NewName "Rubeus.exe"
       #shell: pwsh
 
-    - name: Debug Working Directory
-      run: dir -Recurse
-      shell: pwsh
-
     - name: Upload All Files in Publish Directory
       uses: actions/upload-artifact@v3
       with:
         name: Rubeus-Full
-        path: publish/**
+        path: D:\a\Rubeus\Rubeus\Rubeus\bin\Release
